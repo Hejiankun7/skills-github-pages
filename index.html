@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测试 — 个人网站</title>
+<style>
+  :root{
+    --bg:#141414;
+    --fg:#f2f0ea;
+    --dim:#8a8a85;
+    --line:rgba(242,240,234,0.14);
+    --accent:#c8ff4d;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 28px;
+    background:linear-gradient(to bottom, rgba(20,20,20,0.9), transparent);
+  }
+  nav .logo{font-weight:700; letter-spacing:0.02em; font-size:15px;}
+  nav .links{display:flex; gap:22px; font-size:13px; color:var(--dim);}
+  nav .links a:hover{color:var(--fg);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 0 60px 0;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .marquee{
+    overflow:hidden;
+    white-space:nowrap;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .marquee span{
+    display:inline-block;
+    font-size:clamp(32px, 8vw, 88px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    animation:scroll 18s linear infinite;
+  }
+  .marquee span::before{content:"●\00a0";color:var(--accent);}
+  .marquee span i{font-style:normal; margin:0 28px; color:var(--dim);}
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  .hero-sub{
+    max-width:560px;
+    margin:36px 28px 0 28px;
+    color:var(--dim);
+    font-size:14px;
+    line-height:1.7;
+  }
+  .hero-sub b{color:var(--fg);}
+  .hero-cta{
+    margin:28px 28px 0 28px;
+    display:flex; gap:12px;
+  }
+  .btn{
+    display:inline-block;
+    padding:12px 20px;
+    border-radius:999px;
+    font-size:13px;
+    border:1px solid var(--line);
+  }
+  .btn.primary{background:var(--accent); color:#141414; font-weight:700; border:none;}
+  .btn.primary:hover{opacity:0.85;}
+  .btn:not(.primary):hover{border-color:var(--fg);}
+
+  /* ---------- section shell ---------- */
+  section{
+    padding:100px 28px;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-size:12px; color:var(--dim);
+    letter-spacing:0.06em;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:"●"; color:var(--accent);}
+  h2{
+    font-size:clamp(24px, 4vw, 40px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    max-width:720px;
+    line-height:1.25;
+  }
+  p.desc{
+    max-width:560px;
+    color:var(--dim);
+    font-size:14px;
+    line-height:1.8;
+    margin-top:16px;
+  }
+
+  /* ---------- gallery (works) ---------- */
+  .gallery-track{
+    display:flex; gap:16px;
+    overflow-x:auto;
+    margin-top:40px;
+    padding-bottom:8px;
+    scrollbar-width:none;
+  }
+  .gallery-track::-webkit-scrollbar{display:none;}
+  .card{
+    flex:0 0 240px;
+    height:300px;
+    border-radius:14px;
+    background:linear-gradient(160deg,#1e1e1e,#262626);
+    border:1px solid var(--line);
+    display:flex; align-items:flex-end;
+    padding:16px;
+    font-size:13px;
+    color:var(--dim);
+  }
+
+  /* ---------- benefits list ---------- */
+  .benefits{margin-top:40px; display:flex; flex-direction:column;}
+  .benefit{
+    display:grid;
+    grid-template-columns:60px 1fr;
+    gap:20px;
+    padding:24px 0;
+    border-top:1px solid var(--line);
+  }
+  .benefit:last-child{border-bottom:1px solid var(--line);}
+  .benefit .num{color:var(--dim); font-size:13px; padding-top:4px;}
+  .benefit h3{font-size:17px; margin-bottom:6px;}
+  .benefit p{color:var(--dim); font-size:13px; line-height:1.7; max-width:520px;}
+
+  /* ---------- packages ---------- */
+  .packages{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px;}
+  @media (max-width:720px){.packages{grid-template-columns:1fr;}}
+  .pkg{
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px;
+    position:relative;
+  }
+  .pkg.pro{border-color:var(--accent);}
+  .pkg .tag{
+    position:absolute; top:-12px; right:20px;
+    background:var(--accent); color:#141414;
+    font-size:11px; font-weight:700;
+    padding:4px 10px; border-radius:999px;
+  }
+  .pkg .price{font-size:32px; font-weight:800; margin:14px 0 4px 0;}
+  .pkg ul{margin-top:20px; list-style:none; font-size:13px; color:var(--dim); line-height:2.2;}
+  .pkg li::before{content:"— ";}
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:60px 28px;
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px;
+    font-size:12px; color:var(--dim); line-height:1.8;
+  }
+  footer .links{display:flex; gap:18px;}
+  footer .links a:hover{color:var(--fg);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">测试 / TEST</div>
+  <div class="links">
+    <a href="#works">测试作品</a>
+    <a href="#benefits">测试特点</a>
+    <a href="#contact">测试联系</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div style="flex:1"></div>
+  <div class="marquee">
+    <span><i>测试测试测试</i><i>测试测试测试</i><i>测试测试测试</i><i>测试测试测试</i></span>
+  </div>
+  <p class="hero-sub">v.01 —— 这是一个测试页面 —— // 这里放一句关于你自己的简短介绍,风格模仿 <b>pxpush.com</b>,内容全部是占位测试文字。</p>
+  <div class="hero-cta">
+    <a class="btn primary" href="#contact">测试按钮 ↗</a>
+    <a class="btn" href="#works">查看测试作品 ↗</a>
+  </div>
+</header>
+
+<section id="works">
+  <div class="eyebrow">Nº001 / 测试板块</div>
+  <h2>这里是测试标题,可以换成"我的项目"之类的内容</h2>
+  <p class="desc">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试。</p>
+  <div class="gallery-track">
+    <div class="card">测试项目 01</div>
+    <div class="card">测试项目 02</div>
+    <div class="card">测试项目 03</div>
+    <div class="card">测试项目 04</div>
+    <div class="card">测试项目 05</div>
+    <div class="card">测试项目 06</div>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="eyebrow">Nº002 / 测试特点</div>
+  <h2>这几条可以换成你想强调的个人特点</h2>
+  <div class="benefits">
+    <div class="benefit">
+      <div class="num">Nº01</div>
+      <div><h3>测试标题一</h3><p>测试测试测试测试测试测试测试测试测试测试测试测试。</p></div>
+    </div>
+    <div class="benefit">
+      <div class="num">Nº02</div>
+      <div><h3>测试标题二</h3><p>测试测试测试测试测试测试测试测试测试测试测试测试。</p></div>
+    </div>
+    <div class="benefit">
+      <div class="num">Nº03</div>
+      <div><h3>测试标题三</h3><p>测试测试测试测试测试测试测试测试测试测试测试测试。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="eyebrow">Nº003 / 测试联系方式</div>
+  <h2>这里放联系方式或者其他你想放的卡片</h2>
+  <div class="packages">
+    <div class="pkg">
+      <div class="price">测试 A</div>
+      <p class="desc">测试卡片说明文字</p>
+      <ul>
+        <li>测试要点一</li>
+        <li>测试要点二</li>
+        <li>测试要点三</li>
+      </ul>
+    </div>
+    <div class="pkg pro">
+      <div class="tag">测试标签</div>
+      <div class="price">测试 B</div>
+      <p class="desc">测试卡片说明文字</p>
+      <ul>
+        <li>测试要点一</li>
+        <li>测试要点二</li>
+        <li>测试要点三</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    测试 / TEST<br>
+    这里放地址或者签名<br>
+    GMT +08:00
+  </div>
+  <div class="links">
+    <a href="#">GitHub ↗</a>
+    <a href="#">测试链接 ↗</a>
+    <a href="#">测试链接 ↗</a>
+  </div>
+</footer>
+
+</body>
+</html>
